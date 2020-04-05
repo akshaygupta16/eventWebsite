@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="./assets/footerstyle.css">
+
+	<title>Events</title>
+</head>
+
+<%- include('header.ejs') -%>
+
+<main class="container-fluid p-3">
+
+	<section class="container p-4">
+		<h2>Festivites</h2>
+		<div class="card-deck">
+			
+			<% for (var i =0; i < events.length;  i++ ) { %>
+            <% if (events[i].topic === "one") { %>
+			<div class="card">
+				<img class="card-img-top" src="./assets/IMG_7258.JPG" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title"><%= events[i].title %></h5>
+					<p class="card-text">A quick description of the event goes in here with a natural lead in to additonal content</p>
+				</div>
+				<div class="card-footer">
+					<a class="btn btn-primary" href="/event?id=<%= events[i].id %>" role="button">View More</a>
+				</div>
+			</div>
+			<% } %>
+            <% } %>
+		</div>
+	</section>
+
+	<section class="container p-4">
+		<h2>Adventure</h2>
+		<div class="card-deck">
+			
+			<% for (var i =0; i < events.length;  i++ ) { %>
+            <% if (events[i].topic === "two") { %>
+			<div class="card">
+				<img class="card-img-top" src="./assets/IMG_20191226_144521.JPG" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title"><%= events[i].title %></h5>
+					<p class="card-text">A quick description of the event goes in here with a natural lead in to additonal content</p>
+				</div>
+				<div class="card-footer">
+					<a class="btn btn-primary" href="/event?id=<%= events[i].id %>" role="button">View More</a>
+				</div>
+			</div>
+			<% } %>
+            <% } %>
+		</div>
+	</section>
+
+</main>
+
+<%- include ('footer.ejs') -%>
+</html>

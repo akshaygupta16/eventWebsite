@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="./assets/footerstyle.css">
+
+	<title>Event One</title>
+</head>
+
+<%- include('header.ejs') -%>
+
+<main>
+	<% if (data) { %>
+		<div class="card mb-3 p-5">
+			<div class="row no-gutters">
+				<div class="col-md-4">
+					<img src="./assets/IMG_20191231_150952.JPG" class="card-img" alt="...">
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<h3 class="card-title"><%= data.title %></h3>
+						<p class="card-text"><%= data.date %></p>
+						<p class="card-text"><%= data.time %></p>
+						<p class="card-text"><%= data.location %></p>
+						<p class="card-text">Detailed Description of the event goes in here</p>
+						<p class="card-text"><small class="text-muted">3 people going</small></p>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<p class="card-text"> Are you going ?</p>
+				
+				<a class="btn btn-success" href="/user/add?id=<%= data.id %>&rsvp=Going" role="button">Going</a>
+				<a class="btn btn-danger" href="/user/add?id=<%= data.id %>&rsvp=Nah" role="button">Nah</a>
+				<a class="btn btn-primary" href="/user/add?id=<%= data.id %>&rsvp=Maybe" role="button">Maybe</a>
+				
+			</div>
+		</div>
+	<% } %>
+	
+	<% if (!data) { %>
+		<h2>This event does not exist!</h2>
+	<% } %>
+</main>
+
+<%- include ('footer.ejs') -%>
+</html>

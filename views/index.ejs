@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./assets/footerstyle.css">
+
+    <title>Hello, world!</title>
+  </head>
+
+ <%- include('header.ejs') -%>
+
+  <main>
+  	<section class="jumbotron">
+  		<h1 class="display-4">Hello there!</h1>
+  		<h2 class="display-6">This is the Main area</h2>
+  		<p class="lead"> Here will go some text describing the webpage. </p>
+  	</section>
+  	 <section class="container">
+        <div class="row">
+          <article class="col-4 rounded">
+            <h3>#1 Trending Event</h3>
+            <p>One line description of the event</p>
+            <a class="btn btn-primary" href="/event" role="button">Details</a>
+          </article>
+          <article class="col-4">
+            <h3>#2 Trending Event</h3>
+            <p>One line description of the event</p>
+            <a class="btn btn-primary" href="/event" role="button">Details</a>
+          </article>
+          <article class="col-4">
+            <h3>#3 Trending Event</h3>
+            <p>One line description of the event</p>
+            <a class="btn btn-primary" href="/event" role="button">Details</a>
+          </article>
+      </div>
+  </section>
+  </main>
+
+<%- include ('footer.ejs') -%>
+</html>
