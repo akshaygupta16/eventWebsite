@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 router.get('/', function(req,res){
-  res.render('about');
+  res.render('about', {data : req.session.currentUser} );
 });
 
 

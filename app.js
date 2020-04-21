@@ -14,6 +14,10 @@ app.use(session({secret: 'NBAD	',saveUninitialized: true,resave: true}));
 app.use(bodyParser.json());      
 app.use(bodyParser.urlencoded({extended: true}));
 
+//setting up mongoDB
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/akshaygupta", { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true});
+
 //index page controller
 var index = require('./routes/index.js');
 app.use('/',index);

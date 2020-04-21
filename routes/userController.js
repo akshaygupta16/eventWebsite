@@ -2,12 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 //Required Utilites
-var userClass = require('../models/user')
-var userEvent = require('../models/userEvent')
+const eventModel = require('../utility/eventsDB');
+const userModel = require('../utility/userDB');
 
-//Required models
-var userProfile = require('../utility/userProfile')
-const allevents = require('../utility/eventsDB.js');
+let userDB = new userModel();
+let eventsDB = new eventModel();
 
 //login route
 router.get('/login', function(req,res){
@@ -16,54 +15,69 @@ router.get('/login', function(req,res){
 
 //profile route(once a user logs in)
 //using router.all(...) to handle both GET and POST
-router.all('/profile', function(req,res,next){
+router.all('/profile', async function(req,res,next){
 
     if (req.body.username == "" || req.body.password == ""){
         console.log("Please enter both username and password");
         res.render('login');
     }
     //creating new user object
-    var user = new userClass(100,"Bob","James",req.body.username);
-    profile = new userProfile(user.uid);
-    
-    //add a profile to the user to maintain all saved events
-    user.profile = profile;
-    
+    let user = await userDB.getUser(req.body.username);
+
+    //if user with provided email id exists in db
+    if (typeof user != "undefined"){
     //registering the user in the session
     req.session.currentUser = user;
-    
-    res.render('savedConnections',  {data : req.session.currentUser, datap : profile});
-
+    res.render('savedConnections',  {data : req.session.currentUser, datap : user.profile});
+    }else{
+        res.send("No such user found in DB., try a different email ID!")
+    }
 });
 
-//save event to profile route/function
-router.get('/add', function(req,res,next){
+//  route : handling user input data to create event
+router.post('/createevent', async function(req,res){
+    await eventsDB.addNewEvent({title : req.body.title, date : req.body.date, time : req.body.time, location : req.body.location, details : req.body.details, category : req.body.category },req.session.currentUser);
+    res.render('eventDetail', {data : req.session.currentUser, datap : {title : req.body.title, date : req.body.date, time : req.body.time, location : req.body.location, category : req.body.category }})
+    
+});
+
+//  route : save event to profile/ add rsvp
+router.get('/add', async function(req,res,next){
    
-    var currUser = req.session.currentUser
+    let currUser = await userDB.getUser(req.session.currentUser.email);
     
     //if user is logged in
     if(typeof currUser != "undefined"){
         const id = req.query.id;
         const rsvp = req.query.rsvp
-        profile = req.session.currentUser.profile
-
+        
         //if the event exists in user's saved event list 
-        for (var i = 0; i < profile.events.length; i++){
-            if(profile.events[i].event.id == id){
-                profile.events[i].rsvp = rsvp;
-                res.render('savedConnections',  {data : req.session.currentUser, datap : profile});
-                next();
+        for (var i = 0; i < currUser.profile.length; i++){
+            console.log("In for loop");
+            
+            if(currUser.profile[i].event._id == req.query.id){
+                console.log("Event already in saved events")
+
+                //saving updated rsvp for an event
+                let user = await userDB.updateRSVP(id,rsvp,currUser);
+                console.log("RSVP Changed", user.profile);
+                res.render('savedConnections', {data : user, datap : user.profile});
+                return;
             }
         }
+
+        //if the event doesn't already exist in users profile - adding the userEvent the user's events list
+        let eventToAdd = await eventsDB.getEvent(id);
+        currUser.profile.push({event:eventToAdd, rsvp:rsvp});
         
-        //creating a userEvent object for the selected event
-        eventToAdd = new userEvent(allevents.getEvent(id),rsvp)
-       
-        //adding the userEvent the user's events list
-        profile.events.push(eventToAdd);
-        res.render('savedConnections',  {data : req.session.currentUser, datap : profile});
+        let user = await userDB.addRSVP(eventToAdd, rsvp, currUser._id);
+        res.render('savedConnections',  {data : user, datap : user.profile});
+
+        //saving the changes to the session user object
+        req.session.currentUser = userDB.getUser(req.session.currentUser.email);
         next();
     }
+
     //if user isn't logged in
     else{
         res.render('login')
@@ -73,26 +87,29 @@ router.get('/add', function(req,res,next){
 });
 
 //Delete event route/function
-router.get('/delEvent', function(req,res){
+router.get('/delEvent', async function(req,res){
    
-    const id = req.query.id
-    profile = req.session.currentUser.profile
-    
-    //find the event in userevents list and splice the list
-    for (var i = 0; i < profile.events.length; i++){
-        if(profile.events[i].event.id == id){
-            profile.events.splice(i,1)
-        }
-    }
-    res.render('savedConnections', {data : req.session.currentUser, datap : profile});
+    var currUser = req.session.currentUser;
+
+    let user = await userDB.delRSVP(req.query.id,currUser);
+    res.render('savedConnections', {data : req.session.currentUser, datap : user.profile});
+
+    //saving the changes to the session user object
+    req.session.currentUser = userDB.getUser(req.session.currentUser.email);
 });
 
 //Update event route/function
-router.get('/updateEvent', function(req,res){
-    const id = req.query.id
-    profile = req.session.currentUser.profile
-    res.render('eventDetail', {data: allevents.getEvent(id)})
+router.get('/updateEvent', async function(req,res){ 
+    console.log("IN UPDATE EVENT",req.query.id);
+    
+    //fetching the event object for which the rsvp is to be updated
+    let event = await eventsDB.getEvent(req.query.id);
+    res.render('eventDetail', {data : req.session.currentUser, datap: event})
+
+    //saving the changes to the session user object
+    req.session.currentUser = userDB.getUser(req.session.currentUser.email);
 });
+
 
 //logout route
 router.get('/logout', function(req,res,next){

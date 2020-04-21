@@ -15,7 +15,7 @@
 <%- include('header.ejs') -%>
 
 <main>
-	<% if (data) { %>
+	<% if (datap) { %>
 		<div class="card mb-3 p-5">
 			<div class="row no-gutters">
 				<div class="col-md-4">
@@ -23,10 +23,10 @@
 				</div>
 				<div class="col-md-8">
 					<div class="card-body">
-						<h3 class="card-title"><%= data.title %></h3>
-						<p class="card-text"><%= data.date %></p>
-						<p class="card-text"><%= data.time %></p>
-						<p class="card-text"><%= data.location %></p>
+						<h3 class="card-title"><%= datap.title %></h3>
+						<p class="card-text"><%= datap.date %></p>
+						<p class="card-text"><%= datap.time %></p>
+						<p class="card-text"><%= datap.location %></p>
 						<p class="card-text">Detailed Description of the event goes in here</p>
 						<p class="card-text"><small class="text-muted">3 people going</small></p>
 					</div>
@@ -35,9 +35,9 @@
 			<div class="card-footer">
 				<p class="card-text"> Are you going ?</p>
 				
-				<a class="btn btn-success" href="/user/add?id=<%= data.id %>&rsvp=Going" role="button">Going</a>
-				<a class="btn btn-danger" href="/user/add?id=<%= data.id %>&rsvp=Nah" role="button">Nah</a>
-				<a class="btn btn-primary" href="/user/add?id=<%= data.id %>&rsvp=Maybe" role="button">Maybe</a>
+				<a class="btn btn-success" href="/user/add?id=<%= datap._id %>&rsvp=Going" role="button">Going</a>
+				<a class="btn btn-danger" href="/user/add?id=<%= datap._id %>&rsvp=Nah" role="button">Nah</a>
+				<a class="btn btn-primary" href="/user/add?id=<%= datap._id %>&rsvp=Maybe" role="button">Maybe</a>
 				
 			</div>
 		</div>

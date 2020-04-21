@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const allevents = require('../utility/eventsDB.js');
+const eventModel = require('../utility/eventsDB.js');
+let eventDB = new eventModel();
 
-router.get('/', function(req,res){
-  const id = req.query.id;
-  res.render('eventDetail', {data: allevents.getEvent(id)})
+router.get('/', async function(req,res){
+  let event = await eventDB.getEvent(req.query.id);
+  res.render('eventDetail', {data : req.session.currentUser, datap: event})
 });
 
 

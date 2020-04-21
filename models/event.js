@@ -6,7 +6,7 @@ class EventClass {
         this.date=date;
         this.time=time;
         this.location=location;
-        this.topic=topic;
+        this.category=this.category;
     }
 
     getID(){
@@ -33,8 +33,8 @@ class EventClass {
         return this.location;
     }
 
-    getTopic(){
-        return this.topic;
+    getCategory(){
+        return this.category;
     }
 
     getDetails(){
@@ -61,8 +61,8 @@ class EventClass {
     setLocation(value){
         this.location = value;
     }
-    setTopic(value){
-        this.topic = value;
+    setCategory(value){
+        this.category = value;
     }
 
     setDetails(value){
