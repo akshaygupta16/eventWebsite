@@ -23,6 +23,12 @@ Leveraged Node.js, Express and MongoDB.
 <br/>
 
 ![Homepage screenshot](screens/ss1.png?raw=true "Home Page")
+<br/>
+<br/>
 ![Homepage screenshot](screens/ss2.png?raw=true "Explore")
+<br/>
+<br/>
 ![Homepage screenshot](screens/ss3.png?raw=true "Event Details")
+<br/>
+<br/>
 ![Homepage screenshot](screens/ss4.png?raw=true "My Events")
