@@ -2,6 +2,6 @@ use akshaygupta
 db.dropDatabase()
 use akshaygupta
 db.createCollection("events")
-db.createCollection("user")
+db.createCollection("users")
 db.users.insertOne({fname : "Akshay", lname : "Gupta", email: "agupta52@uncc.edu", password : "pass", profile : []})
 db.events.insertMany([{title: "Festivity One", author : "admin", date: "08/21/2020", time: "1230 hrs", location: "Berlin", category: "festivity"},{title: "Festivity Two", author : "admin", date: "04/30/2020", time: "1200 hrs", location: "Bandra", category: "festivity"},{title: "Festivity Three", author : "admin", date: "08/21/2020", time: "1730 hrs", location: "Tokyo", category: "festivity"},{title: "Adventure One", author : "admin", date: "12/21/2020", time: "2230 hrs", location: "Nairobi", category: "adventure"},{title: "Adventure Two", author : "admin", date: "11/11/2020", time: "2000 hrs", location: "Helsinki", category: "adventure"},{title: "Adventure Three", author : "admin", date: "12/21/2020", time: "1030 hrs", location: "Denver", category: "adventure"}])
